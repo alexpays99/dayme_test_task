@@ -8,6 +8,8 @@ sealed class GameEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class StartGame extends GameEvent {}
+
 class LoadGame extends GameEvent {}
 
 class SelectProduct extends GameEvent {
@@ -20,3 +22,7 @@ class SelectProduct extends GameEvent {
 }
 
 class RestartGame extends GameEvent {}
+
+class NextStep extends GameEvent {}
+
+class ClaimBonus extends GameEvent {}
