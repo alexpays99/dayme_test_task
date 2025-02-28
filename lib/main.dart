@@ -8,11 +8,18 @@ import 'features/game/presentation/bloc/game/game_event.dart';
 import 'features/game/presentation/screens/game_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final httpService = HttpService();
+  final gameRepository = GameRepository(httpService);
+
+  runApp(MyApp(gameRepository: gameRepository));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final GameRepository gameRepository;
+
+  const MyApp({super.key, required this.gameRepository});
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +27,10 @@ class MyApp extends StatelessWidget {
       title: 'Обирай Серцем',
       theme: AppTheme.light,
       home: RepositoryProvider(
-        create: (context) => GameRepository(
-          httpService: HttpService(),
-        ),
+        create: (context) => gameRepository,
         child: BlocProvider(
-          create: (context) => GameBloc(
-            context.read<GameRepository>(),
-          )..add(LoadGame()),
+          create: (context) =>
+              GameBloc(context.read<GameRepository>())..add(LoadGame()),
           child: const GameScreen(),
         ),
       ),

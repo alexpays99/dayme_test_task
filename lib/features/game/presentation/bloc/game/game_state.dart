@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import '../../../data/models/product.dart';
 
-abstract class GameState extends Equatable {
+sealed class GameState extends Equatable {
   const GameState();
 
   @override
@@ -13,34 +13,49 @@ class GameInitial extends GameState {}
 class GameLoading extends GameState {}
 
 class GameLoaded extends GameState {
-  final List<List<Product>> products;
-  final List<int> likedProducts;
+  final List<Product> allProducts;
+  final List<Product> currentPair;
   final int currentStep;
   final int bonus;
+  final List<int> likedProducts;
 
   const GameLoaded({
-    required this.products,
-    required this.likedProducts,
-    required this.currentStep,
-    required this.bonus,
+    required this.allProducts,
+    required this.currentPair,
+    this.currentStep = 0,
+    this.bonus = 0,
+    this.likedProducts = const [],
   });
 
-  @override
-  List<Object> get props => [products, likedProducts, currentStep, bonus];
-
   GameLoaded copyWith({
-    List<List<Product>>? products,
-    List<int>? likedProducts,
+    List<Product>? allProducts,
+    List<Product>? currentPair,
     int? currentStep,
     int? bonus,
+    List<int>? likedProducts,
   }) {
     return GameLoaded(
-      products: products ?? this.products,
-      likedProducts: likedProducts ?? this.likedProducts,
+      allProducts: allProducts ?? this.allProducts,
+      currentPair: currentPair ?? this.currentPair,
       currentStep: currentStep ?? this.currentStep,
       bonus: bonus ?? this.bonus,
+      likedProducts: likedProducts ?? this.likedProducts,
     );
   }
+
+  @override
+  List<Object> get props =>
+      [allProducts, currentPair, currentStep, bonus, likedProducts];
+}
+
+class GameCompleted extends GameState {
+  final int finalScore;
+  final List<int> likedProducts;
+
+  const GameCompleted(this.finalScore, this.likedProducts);
+
+  @override
+  List<Object> get props => [finalScore, likedProducts];
 }
 
 class GameError extends GameState {

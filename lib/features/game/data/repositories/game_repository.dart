@@ -1,28 +1,50 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:flutter/foundation.dart';
 import '../../../../core/services/http_service.dart';
 import '../models/product.dart';
 import '../../domain/repositories/i_game_repository.dart';
 
 class GameRepository implements IGameRepository {
+  GameRepository(this._httpService);
+
   final HttpService _httpService;
   static const String baseUrl = 'https://dayme.com.ua/game/';
 
-  GameRepository({required HttpService httpService})
-      : _httpService = httpService;
-
   @override
-  Future<List<List<Product>>> getProducts() async {
+  Future<List<Product>> getProducts() async {
     try {
+      debugPrint('Fetching products from API');
       final response = await _httpService.get(baseUrl);
-      final List<dynamic> jsonData = json.decode(response.body);
-      return jsonData
-          .map((pair) => (pair as List)
-              .map((product) =>
-                  Product.fromJson(product as Map<String, dynamic>))
-              .toList())
-          .toList();
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = json.decode(response.body);
+        final List<Product> allProducts = [];
+
+        // API returns array of arrays, each inner array contains 2 products
+        for (var pair in data) {
+          if (pair is List) {
+            for (var productJson in pair) {
+              if (productJson is Map<String, dynamic>) {
+                allProducts.add(Product.fromJson(productJson));
+              }
+            }
+          }
+        }
+
+        if (allProducts.isEmpty) {
+          throw const FormatException('No valid products found in response');
+        }
+
+        return allProducts;
+      } else {
+        throw HttpException(
+          'Server returned ${response.statusCode}: ${response.body}',
+        );
+      }
     } catch (e) {
-      throw Exception('Failed to load products: $e');
+      debugPrint('Error in getProducts: $e');
+      rethrow;
     }
   }
 
@@ -34,13 +56,20 @@ class GameRepository implements IGameRepository {
     try {
       final response = await _httpService.post(
         baseUrl,
-        body: {'bonus': bonus, 'likeIds': likeIds},
+        body: {
+          'bonus': bonus,
+          'likeIds': likeIds,
+        },
       );
+
       if (response.statusCode != 200) {
-        throw Exception('Failed to submit results');
+        throw HttpException(
+          'Failed to submit results: ${response.statusCode} - ${response.body}',
+        );
       }
     } catch (e) {
-      throw Exception('Error submitting results: $e');
+      debugPrint('Error in submitResults: $e');
+      rethrow;
     }
   }
 }

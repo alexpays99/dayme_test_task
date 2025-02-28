@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constants/assets.dart';
+import '../../../../core/theme/app_theme.dart';
 import '../bloc/game/game_bloc.dart';
 import '../bloc/game/game_event.dart';
 import '../bloc/game/game_state.dart';
@@ -23,63 +24,120 @@ class GameScreenView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: GameImageAssets.close.svg,
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-      ),
       body: SafeArea(
         child: BlocBuilder<GameBloc, GameState>(
           builder: (context, state) {
-            if (state is GameLoading) {
-              return const Center(child: CircularProgressIndicator());
-            }
-
-            if (state is GameError) {
-              return Center(child: Text('Error: ${state.message}'));
-            }
-
-            if (state is GameLoaded) {
-              return Column(
-                children: [
-                  GameProgressIndicator(
-                    currentStep: state.currentStep,
-                    totalSteps: 10,
+            return Stack(
+              children: [
+                // Close button
+                Positioned(
+                  left: 16,
+                  top: 16,
+                  child: IconButton(
+                    icon: GameImageAssets.close.svg,
+                    onPressed: () => Navigator.of(context).pop(),
                   ),
-                  GameScoreWidget(score: state.bonus),
-                  if (state.currentStep < 10) ...[
-                    Row(
-                      children:
-                          state.products[state.currentStep].map((product) {
-                        return Expanded(
-                          child: ProductCard(
-                            product: product,
-                            isSelected:
-                                state.likedProducts.contains(product.productId),
-                            onTap: () => context.read<GameBloc>().add(
-                                  SelectProduct(product),
-                                ),
-                          ),
-                        );
-                      }).toList(),
+                ),
+                if (state is GameLoading)
+                  Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GameImageAssets.promoIcon.svg,
+                        const SizedBox(height: 24),
+                        const Text(
+                          'Завантаження...',
+                          style: AppTextStyles.mariupolBold20,
+                        ),
+                      ],
                     ),
-                  ] else ...[
-                    Center(
-                      child: Column(
-                        children: [
-                          GameImageAssets.winIcon.svg,
-                          const Text('Игра завершена!'),
-                          GameScoreWidget(score: state.bonus),
-                        ],
+                  )
+                else if (state is GameError)
+                  Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Помилка: ${state.message}',
+                          style: AppTextStyles.mariupolBold20,
+                        ),
+                        const SizedBox(height: 16),
+                        ElevatedButton(
+                          onPressed: () =>
+                              context.read<GameBloc>().add(LoadGame()),
+                          child: const Text('Спробувати знову'),
+                        ),
+                      ],
+                    ),
+                  )
+                else if (state is GameLoaded)
+                  Column(
+                    children: [
+                      const SizedBox(height: 56),
+                      GameProgressIndicator(
+                        currentStep: state.currentStep,
+                        totalSteps: 10,
                       ),
+                      const SizedBox(height: 8),
+                      GameScoreWidget(score: state.bonus),
+                      const SizedBox(height: 16),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Row(
+                            children: state.currentPair.map((product) {
+                              return Expanded(
+                                child: ProductCard(
+                                  product: product,
+                                  isSelected: state.likedProducts
+                                      .contains(product.productId),
+                                  onTap: () => context
+                                      .read<GameBloc>()
+                                      .add(SelectProduct(product)),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                    ],
+                  )
+                else if (state is GameCompleted)
+                  Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GameImageAssets.winIcon.svg,
+                        const SizedBox(height: 24),
+                        const Text(
+                          'Вітаємо!',
+                          style: AppTextStyles.mariupolBold32,
+                        ),
+                        const Text(
+                          'Твій виграш',
+                          style: AppTextStyles.mariupolBold20,
+                        ),
+                        const SizedBox(height: 16),
+                        GameScoreWidget(score: state.finalScore),
+                        const SizedBox(height: 24),
+                        ElevatedButton(
+                          onPressed: () =>
+                              context.read<GameBloc>().add(RestartGame()),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              GameImageAssets.defaultCoin.svg,
+                              const SizedBox(width: 8),
+                              const Text('Забрати бонуси'),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ],
-              );
-            }
-
-            return const SizedBox();
+                  ),
+              ],
+            );
           },
         ),
       ),

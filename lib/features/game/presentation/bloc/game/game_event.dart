@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import '../../../data/models/product.dart';
 
-abstract class GameEvent extends Equatable {
+sealed class GameEvent extends Equatable {
   const GameEvent();
 
   @override
@@ -18,3 +18,5 @@ class SelectProduct extends GameEvent {
   @override
   List<Object> get props => [product];
 }
+
+class RestartGame extends GameEvent {}
