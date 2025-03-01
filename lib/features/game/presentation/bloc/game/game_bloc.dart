@@ -44,13 +44,13 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     if (state is GameLoaded) {
       final currentState = state as GameLoaded;
       if (currentState.allProducts.isEmpty) {
-        emit(GameError('No products available'));
+        emit(const GameError('No products available'));
         return;
       }
 
       final pair = _selectRandomPair(currentState.allProducts);
       if (pair.length != 2) {
-        emit(GameError('Failed to generate product pair'));
+        emit(const GameError('Failed to generate product pair'));
         return;
       }
 
