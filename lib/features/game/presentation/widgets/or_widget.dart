@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import '../../../../core/constants/strings.dart';
 import '../../../../core/theme/app_theme.dart';
 
 class OrWidget extends StatelessWidget {
@@ -9,10 +9,11 @@ class OrWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
+    return Container(
+      padding: const EdgeInsets.all(4.0),
       decoration: BoxDecoration(
-        color: AppColors.white,
         shape: BoxShape.circle,
+        color: AppColors.white,
         boxShadow: [
           BoxShadow(
             color: AppColors.black.withOpacity(0.25),
@@ -20,22 +21,16 @@ class OrWidget extends StatelessWidget {
           ),
         ],
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(4.0),
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: AppColors.purple,
-            shape: BoxShape.circle,
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: const Text(
-              'або',
-              style: TextStyle(
-                color: AppColors.white,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+      child: Container(
+        padding: const EdgeInsets.all(8.0),
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: AppColors.purple,
+        ),
+        child: Text(
+          AppStrings.orText,
+          style: AppTextStyles.mariupolBold20.copyWith(
+            color: AppColors.white,
           ),
         ),
       ),

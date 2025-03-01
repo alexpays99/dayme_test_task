@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/constants/strings.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../bloc/game/game_bloc.dart';
 import '../bloc/game/game_event.dart';
@@ -33,8 +34,8 @@ class NextButton extends StatelessWidget {
             elevation: 4,
             shadowColor: AppColors.black.withOpacity(0.25),
           ),
-          child: const Text(
-            'Далі',
+          child: Text(
+            AppStrings.nextButton,
             style: AppTextStyles.mariupolBold32,
           ),
         ),

@@ -74,12 +74,9 @@ class GameBloc extends Bloc<GameEvent, GameState> {
       final currentState = state as GameLoaded;
       if (!currentState.isGameStarted) return;
 
-      // Update state to show selected product with active heart icon
       emit(currentState.copyWith(
         selectedProduct: event.product,
-        likedProducts: [
-          event.product.productId
-        ], // Add current selection to show active heart
+        likedProducts: [event.product.productId],
       ));
     }
   }
@@ -100,7 +97,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
       if (newStep < 10) {
         emit(currentState.copyWith(
           currentPair: _selectRandomPair(currentState.allProducts),
-          likedProducts: [], // Reset liked products for next step
+          likedProducts: [],
           bonus: newBonus,
           currentStep: newStep,
           selectedProduct: null,
@@ -133,7 +130,6 @@ class GameBloc extends Bloc<GameEvent, GameState> {
           textColor: AppColors.black,
         );
 
-        // Restart the game after successful bonus claim
         add(LoadGame());
       } catch (e) {
         emit(GameError(e.toString()));

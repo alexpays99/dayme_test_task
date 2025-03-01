@@ -1,14 +1,13 @@
-import 'package:dayme_test_task/features/game/data/repositories/game_repository.dart';
 import 'package:dayme_test_task/features/game/presentation/widgets/game_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constants/assets.dart';
+import '../../../../core/constants/strings.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../bloc/game/game_bloc.dart';
 import '../bloc/game/game_event.dart';
 import '../bloc/game/game_state.dart';
 import '../widgets/game_header.dart';
-import '../widgets/game_score_widget.dart';
 import '../widgets/next_button.dart';
 import '../widgets/product_selection.dart';
 import '../widgets/start_button.dart';
@@ -40,9 +39,9 @@ class GameScreenView extends StatelessWidget {
                       children: [
                         const Spacer(),
                         GameImageAssets.promoIcon.svg,
-                        const Spacer(),
+                        const SizedBox(height: 24),
                         Text(
-                          'завантаження ...',
+                          AppStrings.welcomeTitle,
                           style: AppTextStyles.mariupolBold20.copyWith(
                             color: AppColors.white.withOpacity(0.5),
                           ),
@@ -75,8 +74,8 @@ class GameScreenView extends StatelessWidget {
                       ),
                       const SizedBox(height: 16),
                       ProductSelection(state: state),
-                      const Spacer(),
-                      if (state.selectedProduct != null) const NextButton(),
+                      const Spacer(), const NextButton(),
+                      // if (state.selectedProduct != null) const NextButton(),
                       const Spacer(),
                     ],
                   ),

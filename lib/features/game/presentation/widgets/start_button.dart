@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/constants/strings.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../bloc/game/game_bloc.dart';
 import '../bloc/game/game_event.dart';
@@ -31,7 +32,7 @@ class StartButton extends StatelessWidget {
           shadowColor: AppColors.black.withOpacity(0.25),
         ),
         child: Text(
-          'Старт',
+          AppStrings.startButton,
           style: AppTextStyles.mariupolBold32.copyWith(
             color: AppColors.black,
           ),
