@@ -14,19 +14,20 @@ class GameProgressIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            '${currentStep + 1} / $totalSteps',
-            style: Theme.of(context).textTheme.bodyLarge,
-          ),
+          // Text(
+          //   '${currentStep + 1} / $totalSteps',
+          //   style: Theme.of(context).textTheme.bodyLarge,
+          // ),
           const SizedBox(height: 8),
           ConstrainedBox(
             constraints: BoxConstraints(
-              maxWidth: MediaQuery.of(context).size.width - 32, // Account for padding
+              maxWidth:
+                  MediaQuery.of(context).size.width - 32, // Account for padding
             ),
             child: Row(
               mainAxisSize: MainAxisSize.max,

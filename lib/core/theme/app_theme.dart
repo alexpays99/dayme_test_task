@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 class AppColors {
   static const background = Color(0xFFAE7FFF);
   static const text = Color(0xFFFFFFFF);
-  static const yellow = Color(0xFFFFF4AC);
-  static const purple = Color(0xFFAE7FFF);
+  static const yellow = Color(0xFFF1FF8B);
+  static const purple = Color(0xFF9A7FFF);
   static const white = Color(0xFFFFFFFF);
   static const black = Color.fromARGB(255, 0, 0, 0);
 }
@@ -27,6 +27,12 @@ class AppTextStyles {
   static const mariupolBold16 = TextStyle(
     fontFamily: 'Mariupol',
     fontSize: 16,
+    fontWeight: FontWeight.bold,
+    color: AppColors.text,
+  );
+  static const mariupolBold14 = TextStyle(
+    fontFamily: 'Mariupol',
+    fontSize: 14,
     fontWeight: FontWeight.bold,
     color: AppColors.text,
   );

@@ -24,7 +24,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Обирай Серцем',
       theme: AppTheme.light,
       home: RepositoryProvider(
         create: (context) => gameRepository,
