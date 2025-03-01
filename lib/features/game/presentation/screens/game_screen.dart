@@ -49,20 +49,27 @@ class GameScreenView extends StatelessWidget {
                       children: [
                         GameImageAssets.promoIcon.svg,
                         const SizedBox(height: 24),
+                        const Text(
+                          'завантаження ...',
+                          style: AppTextStyles.mariupolBold20,
+                        ),
+                        const SizedBox(height: 24),
                         ElevatedButton(
                           onPressed: () =>
                               context.read<GameBloc>().add(StartGame()),
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.purple,
+                            backgroundColor: AppColors.yellow,
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 32, vertical: 12),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(24),
                             ),
                           ),
-                          child: const Text(
+                          child: Text(
                             'Старт',
-                            style: AppTextStyles.mariupolBold20,
+                            style: AppTextStyles.mariupolBold20.copyWith(
+                              color: AppColors.black,
+                            ),
                           ),
                         ),
                       ],
@@ -145,19 +152,32 @@ class GameScreenView extends StatelessWidget {
                       if (state.selectedProduct != null)
                         Padding(
                           padding: const EdgeInsets.all(16),
-                          child: ElevatedButton(
-                            onPressed: () =>
-                                context.read<GameBloc>().add(NextStep()),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.purple,
-                              shape: const CircleBorder(),
-                              padding: const EdgeInsets.all(16),
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                              color: AppColors.white,
+                              borderRadius: BorderRadius.circular(24),
                             ),
-                            child: const Text(
-                              'Далі',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 4.0),
+                              child: ElevatedButton(
+                                onPressed: () =>
+                                    context.read<GameBloc>().add(NextStep()),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppColors.purple,
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 32, vertical: 12),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(24),
+                                  ),
+                                ),
+                                child: const Text(
+                                  'Далі',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
@@ -203,12 +223,21 @@ class GameScreenView extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 32, vertical: 12),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(24),
+                              borderRadius: BorderRadius.circular(999),
                             ),
                           ),
-                          child: const Text(
-                            'Забрати бонус',
-                            style: AppTextStyles.mariupolBold20,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              GameImageAssets.defaultCoin.svg,
+                              const SizedBox(width: 8),
+                              Text(
+                                'Забрати бонус',
+                                style: AppTextStyles.mariupolBold20.copyWith(
+                                  color: AppColors.black,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],

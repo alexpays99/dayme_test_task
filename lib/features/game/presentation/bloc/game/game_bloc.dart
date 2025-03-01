@@ -1,7 +1,9 @@
 import 'dart:math';
 
 import 'package:dayme_test_task/features/game/data/models/product.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import '../../../domain/repositories/i_game_repository.dart';
 import 'game_event.dart';
 import 'game_state.dart';
@@ -45,7 +47,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         emit(GameError('No products available'));
         return;
       }
-      
+
       final pair = _selectRandomPair(currentState.allProducts);
       if (pair.length != 2) {
         emit(GameError('Failed to generate product pair'));
@@ -71,7 +73,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     if (state is GameLoaded) {
       final currentState = state as GameLoaded;
       if (!currentState.isGameStarted) return;
-      
+
       emit(currentState.copyWith(
         selectedProduct: event.product,
       ));
@@ -117,6 +119,15 @@ class GameBloc extends Bloc<GameEvent, GameState> {
           likeIds: currentState.likedProducts,
         );
         emit(GameCompleted(currentState.bonus, currentState.likedProducts));
+        Fluttertoast.showToast(
+          msg: "Bonus successfully claimed!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
       } catch (e) {
         emit(GameError(e.toString()));
       }

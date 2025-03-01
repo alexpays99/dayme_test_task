@@ -60,16 +60,6 @@ class HttpService {
     }
   }
 
-  Future<dynamic> getJson(String url) async {
-    final response = await get(url);
-    try {
-      return jsonDecode(response.body);
-    } catch (e) {
-      debugPrint('Failed to decode JSON: $e');
-      throw FormatException('Failed to decode JSON response');
-    }
-  }
-
   Future<http.Response> post(
     String url, {
     Map<String, dynamic>? body,

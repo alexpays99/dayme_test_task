@@ -5,6 +5,8 @@ class AppColors {
   static const text = Color(0xFFFFFFFF);
   static const yellow = Color(0xFFFFF4AC);
   static const purple = Color(0xFFAE7FFF);
+  static const white = Color(0xFFFFFFFF);
+  static const black = Color.fromARGB(255, 0, 0, 0);
 }
 
 class AppTextStyles {
@@ -34,7 +36,7 @@ class AppTheme {
   static ThemeData get light => ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: AppColors.purple,
-          background: AppColors.background,
+          surface: AppColors.background,
         ),
         scaffoldBackgroundColor: AppColors.background,
         useMaterial3: true,
