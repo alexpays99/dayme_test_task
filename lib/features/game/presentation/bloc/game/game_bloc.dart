@@ -118,7 +118,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
           bonus: currentState.bonus,
           likeIds: currentState.likedProducts,
         );
-        emit(GameCompleted(currentState.bonus, currentState.likedProducts));
+
         Fluttertoast.showToast(
           msg: response,
           toastLength: Toast.LENGTH_SHORT,
@@ -128,6 +128,9 @@ class GameBloc extends Bloc<GameEvent, GameState> {
           backgroundColor: AppColors.yellow,
           textColor: AppColors.black,
         );
+
+        // Restart the game after successful bonus claim
+        add(LoadGame());
       } catch (e) {
         emit(GameError(e.toString()));
       }
