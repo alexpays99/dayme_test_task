@@ -28,7 +28,7 @@ class GameScreenView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: RadialGradient(
             center: Alignment.center,
             radius: 1.0,
@@ -78,7 +78,7 @@ class GameScreenView extends StatelessWidget {
                           ),
                         ),
                         const Spacer(),
-                        Text(
+                        const Text(
                           AppStrings.whatWillYouBuy,
                           style: AppTextStyles.mariupolBold32,
                           textAlign: TextAlign.center,
