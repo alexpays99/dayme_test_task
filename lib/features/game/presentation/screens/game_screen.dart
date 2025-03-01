@@ -70,11 +70,9 @@ class GameScreenView extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 16, vertical: 16.0),
-                          child: Expanded(
-                            child: GameProgressIndicator(
-                              currentStep: state.currentStep,
-                              totalSteps: 10,
-                            ),
+                          child: GameProgressIndicator(
+                            currentStep: state.currentStep,
+                            totalSteps: 10,
                           ),
                         ),
                         const Spacer(),
