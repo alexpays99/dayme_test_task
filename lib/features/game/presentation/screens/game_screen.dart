@@ -115,6 +115,7 @@ class GameScreenView extends StatelessWidget {
                           Text(
                             'Помилка: ${state.message}',
                             style: AppTextStyles.mariupolBold20,
+                            textAlign: TextAlign.center,
                           ),
                           const SizedBox(height: 16),
                           ElevatedButton(
