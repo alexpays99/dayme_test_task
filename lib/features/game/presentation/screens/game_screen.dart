@@ -64,6 +64,8 @@ class GameScreenView extends StatelessWidget {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(24),
                             ),
+                            elevation: 4,
+                            shadowColor: Colors.black.withOpacity(0.25),
                           ),
                           child: Text(
                             'Старт',
@@ -170,6 +172,8 @@ class GameScreenView extends StatelessWidget {
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(24),
                                   ),
+                                  elevation: 4,
+                                  shadowColor: Colors.black.withOpacity(0.25),
                                 ),
                                 child: const Text(
                                   'Далі',
@@ -264,6 +268,16 @@ class GameScreenView extends StatelessWidget {
                         ElevatedButton(
                           onPressed: () =>
                               context.read<GameBloc>().add(RestartGame()),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.yellow,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 32, vertical: 12),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(24),
+                            ),
+                            elevation: 4,
+                            shadowColor: Colors.black.withOpacity(0.25),
+                          ),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [

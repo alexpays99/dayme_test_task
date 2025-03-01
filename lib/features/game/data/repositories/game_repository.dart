@@ -49,7 +49,7 @@ class GameRepository implements IGameRepository {
   }
 
   @override
-  Future<void> submitResults({
+  Future<String> submitResults({
     required int bonus,
     required List<int> likeIds,
   }) async {
@@ -62,11 +62,12 @@ class GameRepository implements IGameRepository {
         },
       );
 
-      if (response.statusCode != 200) {
+      if (!response.statusCode.toString().startsWith('2')) {
         throw HttpException(
           'Failed to submit results: ${response.statusCode} - ${response.body}',
         );
       }
+      return jsonDecode(response.body)['message'];
     } catch (e) {
       debugPrint('Error in submitResults: $e');
       rethrow;

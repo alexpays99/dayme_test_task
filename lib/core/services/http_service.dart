@@ -93,7 +93,8 @@ class HttpService {
       );
 
       debugPrint('Response status code: ${response.statusCode}');
-      if (response.statusCode != 200) {
+      debugPrint('Response body: ${response.body}');
+      if (!response.statusCode.toString().startsWith('2')) {
         debugPrint(
             'HTTP request failed with status code: ${response.statusCode}');
         throw HttpException(
