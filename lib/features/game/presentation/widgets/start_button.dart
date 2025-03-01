@@ -34,7 +34,7 @@ class StartButton extends StatelessWidget {
         child: Text(
           AppStrings.startButton,
           style: AppTextStyles.mariupolBold32.copyWith(
-            color: AppColors.black,
+            color: AppColors.fullBlack,
           ),
         ),
       ),

@@ -27,137 +27,149 @@ class GameScreenView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: BlocBuilder<GameBloc, GameState>(
-          builder: (context, state) {
-            return Stack(
-              children: [
-                if (state is GameLoaded && !state.isGameStarted)
-                  Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: RadialGradient(
+            center: Alignment.center,
+            radius: 1.0,
+            colors: [
+              AppColors.purpleLight,
+              AppColors.purpleDark,
+            ],
+          ),
+        ),
+        child: SafeArea(
+          child: BlocBuilder<GameBloc, GameState>(
+            builder: (context, state) {
+              return Stack(
+                children: [
+                  if (state is GameLoaded && !state.isGameStarted)
+                    Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Spacer(),
+                          GameImageAssets.promoIcon.svg,
+                          const SizedBox(height: 24),
+                          Text(
+                            AppStrings.loadingText,
+                            style: AppTextStyles.mariupolBold20.copyWith(
+                              color: AppColors.white.withOpacity(0.5),
+                            ),
+                          ),
+                          const SizedBox(height: 24),
+                          const StartButton(),
+                          const Spacer(),
+                        ],
+                      ),
+                    )
+                  else if (state is GameLoaded && state.isGameStarted)
+                    Column(
                       children: [
-                        const Spacer(),
-                        GameImageAssets.promoIcon.svg,
-                        const SizedBox(height: 24),
-                        Text(
-                          AppStrings.welcomeTitle,
-                          style: AppTextStyles.mariupolBold20.copyWith(
-                            color: AppColors.white.withOpacity(0.5),
+                        const SizedBox(height: 56),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 16.0),
+                          child: Expanded(
+                            child: GameProgressIndicator(
+                              currentStep: state.currentStep,
+                              totalSteps: 10,
+                            ),
                           ),
                         ),
-                        const SizedBox(height: 24),
-                        const StartButton(),
                         const Spacer(),
-                      ],
-                    ),
-                  )
-                else if (state is GameLoaded && state.isGameStarted)
-                  Column(
-                    children: [
-                      const SizedBox(height: 56),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 16.0),
-                        child: Expanded(
-                          child: GameProgressIndicator(
-                            currentStep: state.currentStep,
-                            totalSteps: 10,
-                          ),
-                        ),
-                      ),
-                      const Spacer(),
-                      const Text(
-                        'А що обереш ти?',
-                        style: AppTextStyles.mariupolBold32,
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 16),
-                      ProductSelection(state: state),
-                      const Spacer(), const NextButton(),
-                      // if (state.selectedProduct != null) const NextButton(),
-                      const Spacer(),
-                    ],
-                  ),
-                if ((state is GameLoaded &&
-                        state.isGameStarted &&
-                        state.currentPair.length == 2) ||
-                    state is GameFinished)
-                  Positioned(
-                    left: 16,
-                    right: 16,
-                    top: 16,
-                    child: GameHeader(
-                      state: state,
-                      onClose: () => Navigator.of(context).pop(),
-                    ),
-                  ),
-                if (state is GameLoading)
-                  const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                else if (state is GameError)
-                  Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
                         Text(
-                          'Помилка: ${state.message}',
-                          style: AppTextStyles.mariupolBold20,
-                        ),
-                        const SizedBox(height: 16),
-                        ElevatedButton(
-                          onPressed: () =>
-                              context.read<GameBloc>().add(LoadGame()),
-                          child: const Text('Спробувати знову'),
-                        ),
-                      ],
-                    ),
-                  )
-                else if (state is GameFinished)
-                  Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          'Вітаємо!\nТвій виграш',
+                          AppStrings.whatWillYouBuy,
                           style: AppTextStyles.mariupolBold32,
                           textAlign: TextAlign.center,
                         ),
-                        const SizedBox(height: 24),
-                        GameImageAssets.winIcon.svg,
-                        const SizedBox(height: 24),
-                        ElevatedButton(
-                          onPressed: () =>
-                              context.read<GameBloc>().add(ClaimBonus()),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.yellow,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 32, vertical: 12),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(999),
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              GameImageAssets.defaultCoin.svg,
-                              const SizedBox(width: 8),
-                              Text(
-                                'Забрати бонус',
-                                style: AppTextStyles.mariupolBold20.copyWith(
-                                  color: AppColors.black,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        const SizedBox(height: 16),
+                        ProductSelection(state: state),
+                        const Spacer(),
+                        const NextButton(),
+                        const Spacer(),
                       ],
                     ),
-                  )
-              ],
-            );
-          },
+                  if ((state is GameLoaded &&
+                          state.isGameStarted &&
+                          state.currentPair.length == 2) ||
+                      state is GameFinished)
+                    Positioned(
+                      left: 16,
+                      right: 16,
+                      top: 16,
+                      child: GameHeader(
+                        state: state,
+                        onClose: () => Navigator.of(context).pop(),
+                      ),
+                    ),
+                  if (state is GameLoading)
+                    const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  else if (state is GameError)
+                    Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Помилка: ${state.message}',
+                            style: AppTextStyles.mariupolBold20,
+                          ),
+                          const SizedBox(height: 16),
+                          ElevatedButton(
+                            onPressed: () =>
+                                context.read<GameBloc>().add(LoadGame()),
+                            child: const Text('Спробувати знову'),
+                          ),
+                        ],
+                      ),
+                    )
+                  else if (state is GameFinished)
+                    Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            'Вітаємо!\nТвій виграш',
+                            style: AppTextStyles.mariupolBold32,
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 24),
+                          GameImageAssets.winIcon.svg,
+                          const SizedBox(height: 24),
+                          ElevatedButton(
+                            onPressed: () =>
+                                context.read<GameBloc>().add(ClaimBonus()),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.yellow,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 32, vertical: 12),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(999),
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                GameImageAssets.defaultCoin.svg,
+                                const SizedBox(width: 8),
+                                Text(
+                                  AppStrings.claimBonus,
+                                  style: AppTextStyles.mariupolBold20.copyWith(
+                                    color: AppColors.fullBlack,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                ],
+              );
+            },
+          ),
         ),
       ),
     );

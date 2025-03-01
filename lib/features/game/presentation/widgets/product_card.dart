@@ -21,47 +21,55 @@ class ProductCard extends StatelessWidget {
       onTap: onTap,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.grey,
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 8,
+              color: AppColors.black.withOpacity(0.25),
               offset: const Offset(0, 4),
             ),
           ],
         ),
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              // const Spacer(),
-              ClipRRect(
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(16),
-                ),
-                child: Image.network(
-                  product.photoUrl,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              const SizedBox(height: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 2.0, vertical: 2.0),
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  // const Spacer(),
+                  ClipRRect(
+                    borderRadius: const BorderRadius.vertical(
+                      top: Radius.circular(16),
+                    ),
+                    child: Image.network(
+                      product.photoUrl,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
 
-              Text(
-                product.name,
-                style: AppTextStyles.mariupolBold14.copyWith(
-                  color: AppColors.black,
-                ),
-                maxLines: 5,
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.center,
+                  Text(
+                    product.name,
+                    style: AppTextStyles.mariupolBold14.copyWith(
+                      color: AppColors.black,
+                    ),
+                    maxLines: 5,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
+                  ),
+                  const Spacer(),
+                  isSelected
+                      ? GameImageAssets.activeLike.svg
+                      : GameImageAssets.defaultLike.svg,
+                  const SizedBox(height: 8),
+                ],
               ),
-              const Spacer(),
-              isSelected
-                  ? GameImageAssets.activeLike.svg
-                  : GameImageAssets.defaultLike.svg,
-              const SizedBox(height: 8),
-            ],
+            ),
           ),
         ),
       ),

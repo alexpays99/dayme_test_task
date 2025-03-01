@@ -1,3 +1,4 @@
+import 'package:dayme_test_task/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/constants/assets.dart';
 import '../widgets/game_score_widget.dart';
@@ -31,19 +32,11 @@ class GameHeader extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        IconButton(
-          icon: GameImageAssets.close.svg,
-          onPressed: onClose,
-        ),
+        IconButton(icon: GameImageAssets.close.svg, onPressed: onClose),
         const Spacer(),
-        Text(
-          ' 10 / $currentStep',
-          style: Theme.of(context).textTheme.bodyLarge,
-        ),
+        Text(' 10 / $currentStep', style: AppTextStyles.mariupolBold20),
         const SizedBox(width: 8),
-        GameScoreWidget(
-          score: score,
-        ),
+        GameScoreWidget(score: score),
       ],
     );
   }

@@ -6,7 +6,12 @@ class AppColors {
   static const yellow = Color(0xFFF1FF8B);
   static const purple = Color(0xFF9A7FFF);
   static const white = Color(0xFFFFFFFF);
-  static const black = Color.fromARGB(255, 0, 0, 0);
+  static const black = Color(0xFF4C4C4F);
+  static const fullBlack = Color(0xFF000000);
+  static const grey = Color(0xFFD1D8FF);
+
+  static const purpleLight = Color(0xFFAE77FF);
+  static const purpleDark = Color(0xFF7054FE);
 }
 
 class AppTextStyles {
