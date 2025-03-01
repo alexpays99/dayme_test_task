@@ -39,8 +39,9 @@ class GameScreenView extends StatelessWidget {
                   ),
                 ),
                 if (state is GameLoaded &&
-                    state.isGameStarted &&
-                    state.currentPair.length == 2)
+                        state.isGameStarted &&
+                        state.currentPair.length == 2 ||
+                    state is GameFinished)
                   Positioned(
                     left: 16,
                     right: 16,
@@ -54,11 +55,14 @@ class GameScreenView extends StatelessWidget {
                         ),
                         const Spacer(),
                         Text(
-                          '10 / ${state.currentStep + 1}',
+                          ' 10 / ${state is GameLoaded ? (state.currentStep + 1) : 10}',
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
                         const SizedBox(width: 8),
-                        GameScoreWidget(score: state.bonus),
+                        GameScoreWidget(
+                            score: state is GameLoaded
+                                ? state.bonus
+                                : (state as GameFinished).bonus),
                       ],
                     ),
                   ),
@@ -286,49 +290,6 @@ class GameScreenView extends StatelessWidget {
                       ],
                     ),
                   )
-                // else if (state is GameCompleted)
-                //   Center(
-                //     child: Column(
-                //       mainAxisAlignment: MainAxisAlignment.center,
-                //       children: [
-                //         GameImageAssets.winIcon.svg,
-                //         const SizedBox(height: 24),
-                //         const Text(
-                //           'Вітаємо!',
-                //           style: AppTextStyles.mariupolBold32,
-                //         ),
-                //         const Text(
-                //           'Твій виграш',
-                //           style: AppTextStyles.mariupolBold20,
-                //         ),
-                //         const SizedBox(height: 16),
-                //         GameScoreWidget(score: state.finalScore),
-                //         const SizedBox(height: 24),
-                //         ElevatedButton(
-                //           onPressed: () =>
-                //               context.read<GameBloc>().add(RestartGame()),
-                //           style: ElevatedButton.styleFrom(
-                //             backgroundColor: AppColors.yellow,
-                //             padding: const EdgeInsets.symmetric(
-                //                 horizontal: 32, vertical: 12),
-                //             shape: RoundedRectangleBorder(
-                //               borderRadius: BorderRadius.circular(24),
-                //             ),
-                //             elevation: 4,
-                //             shadowColor: Colors.black.withOpacity(0.25),
-                //           ),
-                //           child: Row(
-                //             mainAxisSize: MainAxisSize.min,
-                //             children: [
-                //               GameImageAssets.defaultCoin.svg,
-                //               const SizedBox(width: 8),
-                //               const Text('Забрати бонуси'),
-                //             ],
-                //           ),
-                //         ),
-                //       ],
-                //     ),
-                //   ),
               ],
             );
           },

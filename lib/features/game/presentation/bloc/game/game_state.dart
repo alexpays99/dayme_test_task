@@ -66,21 +66,24 @@ class GameLoaded extends GameState {
 class GameFinished extends GameState {
   final int bonus;
   final List<int> likedProducts;
+  final int currentStep;
 
-  const GameFinished(this.bonus, this.likedProducts);
+  const GameFinished(this.bonus, this.likedProducts, this.currentStep);
+
+  GameFinished copyWith({
+    int? bonus,
+    List<int>? likedProducts,
+    int? currentStep,
+  }) {
+    return GameFinished(
+      bonus ?? this.bonus,
+      likedProducts ?? this.likedProducts,
+      currentStep ?? this.currentStep,
+    );
+  }
 
   @override
-  List<Object> get props => [bonus, likedProducts];
-}
-
-class GameCompleted extends GameState {
-  final int finalScore;
-  final List<int> likedProducts;
-
-  const GameCompleted(this.finalScore, this.likedProducts);
-
-  @override
-  List<Object> get props => [finalScore, likedProducts];
+  List<Object> get props => [bonus, likedProducts, currentStep];
 }
 
 class GameError extends GameState {

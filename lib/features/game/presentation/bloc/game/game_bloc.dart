@@ -106,7 +106,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
           selectedProduct: null,
         ));
       } else {
-        emit(GameFinished(newBonus, newLikedProducts));
+        emit(GameFinished(newBonus, newLikedProducts, newStep));
       }
     }
   }
