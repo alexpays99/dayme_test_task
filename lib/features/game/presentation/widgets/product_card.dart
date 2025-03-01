@@ -1,23 +1,24 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dayme_test_task/features/game/data/models/product.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/constants/assets.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../data/models/product.dart';
 
 class ProductCard extends StatelessWidget {
   final Product product;
-  final VoidCallback onTap;
   final bool isSelected;
+  final VoidCallback onTap;
 
   const ProductCard({
     super.key,
     required this.product,
+    required this.isSelected,
     required this.onTap,
-    this.isSelected = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: onTap,
       child: DecoratedBox(
         decoration: BoxDecoration(
@@ -41,18 +42,22 @@ class ProductCard extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
-                  // const Spacer(),
                   ClipRRect(
                     borderRadius: const BorderRadius.vertical(
                       top: Radius.circular(16),
                     ),
-                    child: Image.network(
-                      product.photoUrl,
+                    child: CachedNetworkImage(
+                      imageUrl: product.photoUrl,
                       fit: BoxFit.cover,
+                      placeholder: (context, url) => const Center(
+                        child:
+                            CircularProgressIndicator(color: AppColors.purple),
+                      ),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
                     ),
                   ),
                   const SizedBox(height: 8),
-
                   Text(
                     product.name,
                     style: AppTextStyles.mariupolBold14.copyWith(

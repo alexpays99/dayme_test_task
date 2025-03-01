@@ -13,11 +13,9 @@ class GameRepository implements IGameRepository {
     http.Client? client,
     CacheService? cacheService,
     HttpService? httpService,
-  })  : _client = client ?? http.Client(),
-        _cacheService = cacheService ?? CacheService(),
+  })  : _cacheService = cacheService ?? CacheService(),
         _httpService = httpService ?? HttpService();
 
-  final http.Client _client;
   final CacheService _cacheService;
   final HttpService _httpService;
   static const String baseUrl = 'https://dayme.com.ua/game/';
