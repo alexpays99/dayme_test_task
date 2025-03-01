@@ -1,3 +1,5 @@
+import 'package:dayme_test_task/features/game/data/repositories/game_repository.dart';
+import 'package:dayme_test_task/features/game/presentation/widgets/game_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constants/assets.dart';
@@ -5,10 +7,11 @@ import '../../../../core/theme/app_theme.dart';
 import '../bloc/game/game_bloc.dart';
 import '../bloc/game/game_event.dart';
 import '../bloc/game/game_state.dart';
-import '../widgets/game_progress_indicator.dart';
-import '../widgets/or_widget.dart';
-import '../widgets/product_card.dart';
+import '../widgets/game_header.dart';
 import '../widgets/game_score_widget.dart';
+import '../widgets/next_button.dart';
+import '../widgets/product_selection.dart';
+import '../widgets/start_button.dart';
 
 class GameScreen extends StatelessWidget {
   const GameScreen({super.key});
@@ -30,47 +33,7 @@ class GameScreenView extends StatelessWidget {
           builder: (context, state) {
             return Stack(
               children: [
-                Positioned(
-                  left: 16,
-                  top: 16,
-                  child: IconButton(
-                    icon: GameImageAssets.close.svg,
-                    onPressed: () => Navigator.of(context).pop(),
-                  ),
-                ),
-                if (state is GameLoaded &&
-                        state.isGameStarted &&
-                        state.currentPair.length == 2 ||
-                    state is GameFinished)
-                  Positioned(
-                    left: 16,
-                    right: 16,
-                    top: 16,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        IconButton(
-                          icon: GameImageAssets.close.svg,
-                          onPressed: () => Navigator.of(context).pop(),
-                        ),
-                        const Spacer(),
-                        Text(
-                          ' 10 / ${state is GameLoaded ? (state.currentStep + 1) : 10}',
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        ),
-                        const SizedBox(width: 8),
-                        GameScoreWidget(
-                            score: state is GameLoaded
-                                ? state.bonus
-                                : (state as GameFinished).bonus),
-                      ],
-                    ),
-                  ),
-                if (state is GameLoading)
-                  const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                else if (state is GameLoaded && !state.isGameStarted)
+                if (state is GameLoaded && !state.isGameStarted)
                   Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -85,44 +48,12 @@ class GameScreenView extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 24),
-                        DecoratedBox(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.25),
-                                offset: const Offset(0, 3),
-                              ),
-                            ],
-                          ),
-                          child: ElevatedButton(
-                            onPressed: () =>
-                                context.read<GameBloc>().add(StartGame()),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.yellow,
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 32, vertical: 12),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50),
-                              ),
-                              // elevation: 5,
-                              // shadowColor: Colors.black,
-                            ),
-                            child: Text(
-                              'Старт',
-                              style: AppTextStyles.mariupolBold32.copyWith(
-                                color: AppColors.black,
-                              ),
-                            ),
-                          ),
-                        ),
+                        const StartButton(),
                         const Spacer(),
                       ],
                     ),
                   )
-                else if (state is GameLoaded &&
-                    state.isGameStarted &&
-                    state.currentPair.length == 2)
+                else if (state is GameLoaded && state.isGameStarted)
                   Column(
                     children: [
                       const SizedBox(height: 56),
@@ -143,93 +74,28 @@ class GameScreenView extends StatelessWidget {
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 16),
-                      Stack(
-                        alignment: Alignment.topCenter,
-                        children: [
-                          SizedBox(
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.4,
-                                    height: MediaQuery.of(context).size.height *
-                                        0.4,
-                                    child: ProductCard(
-                                      product: state.currentPair[0],
-                                      isSelected:
-                                          state.selectedProduct?.productId ==
-                                              state.currentPair[0].productId,
-                                      onTap: () => context.read<GameBloc>().add(
-                                          SelectProduct(state.currentPair[0])),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 8.0),
-                                  SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.4,
-                                    height: MediaQuery.of(context).size.height *
-                                        0.4,
-                                    child: ProductCard(
-                                      product: state.currentPair[1],
-                                      isSelected:
-                                          state.selectedProduct?.productId ==
-                                              state.currentPair[1].productId,
-                                      onTap: () => context.read<GameBloc>().add(
-                                          SelectProduct(state.currentPair[1])),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            top: 100,
-                            child: OrWidget(),
-                          ),
-                        ],
-                      ),
+                      ProductSelection(state: state),
                       const Spacer(),
-                      // if (state.selectedProduct != null)
-                      DecoratedBox(
-                        decoration: BoxDecoration(
-                          color: AppColors.white,
-                          borderRadius: BorderRadius.circular(50),
-                          boxShadow: [
-                            BoxShadow(
-                              color: AppColors.black.withOpacity(0.25),
-                              offset: const Offset(0, 3),
-                            ),
-                          ],
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 4.0, vertical: 4.0),
-                          child: ElevatedButton(
-                            onPressed: () =>
-                                context.read<GameBloc>().add(NextStep()),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.purple,
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 32, vertical: 12),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50),
-                              ),
-                              elevation: 4,
-                              shadowColor: AppColors.black.withOpacity(0.25),
-                            ),
-                            child: const Text(
-                              'Далі',
-                              style: AppTextStyles.mariupolBold32,
-                            ),
-                          ),
-                        ),
-                      ),
+                      if (state.selectedProduct != null) const NextButton(),
                       const Spacer(),
                     ],
+                  ),
+                if ((state is GameLoaded &&
+                        state.isGameStarted &&
+                        state.currentPair.length == 2) ||
+                    state is GameFinished)
+                  Positioned(
+                    left: 16,
+                    right: 16,
+                    top: 16,
+                    child: GameHeader(
+                      state: state,
+                      onClose: () => Navigator.of(context).pop(),
+                    ),
+                  ),
+                if (state is GameLoading)
+                  const Center(
+                    child: CircularProgressIndicator(),
                   )
                 else if (state is GameError)
                   Center(
