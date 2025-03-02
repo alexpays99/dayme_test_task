@@ -15,7 +15,9 @@ enum GameImageAssets implements ImageAssets {
   defaultCoin('assets/images/default_coin.svg'),
   defaultLike('assets/images/default_like.svg'),
   promoIcon('assets/images/promo_icon.svg'),
-  winIcon('assets/images/win_icon.svg');
+  winIcon('assets/images/win_icon.svg'),
+  wheelImg('assets/images/wheel_img.svg'),
+  coinsImg('assets/images/coins_img.svg');
 
   @override
   final String asset;

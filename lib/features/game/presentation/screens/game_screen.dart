@@ -135,31 +135,44 @@ class GameScreenView extends StatelessWidget {
                             textAlign: TextAlign.center,
                           ),
                           const SizedBox(height: 24),
-                          GameImageAssets.winIcon.svg,
+                          // GameImageAssets.winIcon.svg,
+                          const WinWheelWidget(),
                           const SizedBox(height: 24),
-                          ElevatedButton(
-                            onPressed: () =>
-                                context.read<GameBloc>().add(ClaimBonus()),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.yellow,
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 32, vertical: 12),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(999),
-                              ),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                GameImageAssets.defaultCoin.svg,
-                                const SizedBox(width: 8),
-                                Text(
-                                  AppStrings.claimBonus,
-                                  style: AppTextStyles.mariupolBold20.copyWith(
-                                    color: AppColors.fullBlack,
-                                  ),
+                          DecoratedBox(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppColors.black.withOpacity(0.25),
+                                  offset: const Offset(0, 3),
                                 ),
                               ],
+                            ),
+                            child: ElevatedButton(
+                              onPressed: () =>
+                                  context.read<GameBloc>().add(ClaimBonus()),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.yellow,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 32, vertical: 12),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(999),
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  GameImageAssets.defaultCoin.svg,
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    AppStrings.claimBonus,
+                                    style:
+                                        AppTextStyles.mariupolBold20.copyWith(
+                                      color: AppColors.fullBlack,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ],
@@ -171,6 +184,48 @@ class GameScreenView extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class WinWheelWidget extends StatelessWidget {
+  const WinWheelWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final state = context.read<GameBloc>().state;
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        GameImageAssets.wheelImg.svg,
+        Positioned(
+          bottom: 70,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              color: AppColors.white,
+              borderRadius: BorderRadius.circular(50),
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.black.withOpacity(0.25),
+                  offset: const Offset(0, 3),
+                ),
+              ],
+            ),
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+              child: Text('${state is GameFinished ? state.bonus : 0} бонусів',
+                  textAlign: TextAlign.center,
+                  style: AppTextStyles.mariupolBold16.copyWith(
+                    color: AppColors.fullBlack,
+                  )),
+            ),
+          ),
+        ),
+        GameImageAssets.coinsImg.svg,
+      ],
     );
   }
 }

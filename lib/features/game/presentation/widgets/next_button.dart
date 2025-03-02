@@ -34,7 +34,7 @@ class NextButton extends StatelessWidget {
             elevation: 4,
             shadowColor: AppColors.black.withOpacity(0.25),
           ),
-          child: Text(
+          child: const Text(
             AppStrings.nextButton,
             style: AppTextStyles.mariupolBold32,
           ),

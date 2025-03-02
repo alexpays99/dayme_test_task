@@ -23,7 +23,7 @@ class OrWidget extends StatelessWidget {
       ),
       child: Container(
         padding: const EdgeInsets.all(8.0),
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           shape: BoxShape.circle,
           color: AppColors.purple,
         ),
