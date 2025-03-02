@@ -1,4 +1,5 @@
 import 'package:dayme_test_task/features/game/presentation/widgets/game_progress_indicator.dart';
+import 'package:dayme_test_task/features/game/presentation/widgets/win_wheel_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constants/assets.dart';
@@ -184,48 +185,6 @@ class GameScreenView extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class WinWheelWidget extends StatelessWidget {
-  const WinWheelWidget({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final state = context.read<GameBloc>().state;
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        GameImageAssets.wheelImg.svg,
-        Positioned(
-          bottom: 70,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              color: AppColors.white,
-              borderRadius: BorderRadius.circular(50),
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.black.withOpacity(0.25),
-                  offset: const Offset(0, 3),
-                ),
-              ],
-            ),
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-              child: Text('${state is GameFinished ? state.bonus : 0} бонусів',
-                  textAlign: TextAlign.center,
-                  style: AppTextStyles.mariupolBold16.copyWith(
-                    color: AppColors.fullBlack,
-                  )),
-            ),
-          ),
-        ),
-        GameImageAssets.coinsImg.svg,
-      ],
     );
   }
 }
