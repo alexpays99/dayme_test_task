@@ -50,8 +50,16 @@ class GameProgressIndicator extends StatelessWidget {
                         width: 2,
                         color: isCompleted || isCurrent
                             ? AppColors.brownDark
-                            : AppColors.yellow.withOpacity(0.5),
+                            : AppColors.yellow.withOpacity(0.25),
                       ),
+                      boxShadow: isCompleted || isCurrent
+                          ? [
+                              BoxShadow(
+                                color: AppColors.black.withOpacity(0.25),
+                                offset: const Offset(0, 4),
+                              ),
+                            ]
+                          : null,
                     ),
                   ),
                 );
