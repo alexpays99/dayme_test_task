@@ -29,12 +29,29 @@ class GameHeader extends StatelessWidget {
       score = gameState.bonus;
     }
 
+    final color =
+        currentStep == 10 ? AppColors.white : AppColors.white.withAlpha(128);
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         IconButton(icon: GameImageAssets.close.svg, onPressed: onClose),
         const Spacer(),
-        Text(' 10 / $currentStep', style: AppTextStyles.mariupolBold20),
+        RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: '10',
+                style: AppTextStyles.mariupolBold20.copyWith(color: color),
+              ),
+              TextSpan(
+                text: ' / $currentStep',
+                style: AppTextStyles.mariupolBold20
+                    .copyWith(color: AppColors.white),
+              ),
+            ],
+          ),
+        ),
         const SizedBox(width: 8),
         GameScoreWidget(score: score),
       ],
