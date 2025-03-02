@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_theme.dart';
+import 'package:flutter/material.dart';
+import '../../../../core/theme/app_theme.dart';
 
 class GameProgressIndicator extends StatelessWidget {
   final int currentStep;
@@ -32,13 +34,24 @@ class GameProgressIndicator extends StatelessWidget {
                 final isCurrent = index == currentStep;
                 return Expanded(
                   child: Container(
-                    height: 4,
+                    height: 10,
                     margin: const EdgeInsets.symmetric(horizontal: 2),
                     decoration: BoxDecoration(
-                      color: isCompleted || isCurrent
-                          ? AppColors.yellow
-                          : AppColors.yellow.withOpacity(0.3),
-                      borderRadius: BorderRadius.circular(2),
+                      gradient: isCompleted || isCurrent
+                          ? const LinearGradient(
+                              colors: [
+                                AppColors.yellowLight,
+                                AppColors.yellowDark,
+                              ],
+                            )
+                          : null,
+                      borderRadius: BorderRadius.circular(4),
+                      border: Border.all(
+                        width: 2,
+                        color: isCompleted || isCurrent
+                            ? AppColors.brownDark
+                            : AppColors.yellow.withOpacity(0.5),
+                      ),
                     ),
                   ),
                 );

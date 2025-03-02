@@ -10,8 +10,13 @@ class AppColors {
   static const fullBlack = Color(0xFF000000);
   static const grey = Color(0xFFD1D8FF);
 
+  //gradient colors
   static const purpleLight = Color(0xFFAE77FF);
   static const purpleDark = Color(0xFF7054FE);
+  static const yellowLight = Color(0xFFFFEA00);
+  static const yellowDark = Color(0xFFFFCF23);
+  static const brownLight = Color(0xFFC16C06);
+  static const brownDark = Color(0xFF5B3303);
 }
 
 class AppTextStyles {
