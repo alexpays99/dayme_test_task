@@ -19,10 +19,6 @@ class GameProgressIndicator extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Text(
-          //   '${currentStep + 1} / $totalSteps',
-          //   style: Theme.of(context).textTheme.bodyLarge,
-          // ),
           const SizedBox(height: 8),
           ConstrainedBox(
             constraints: BoxConstraints(
