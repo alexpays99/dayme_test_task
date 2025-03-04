@@ -99,7 +99,8 @@ class GameScreenView extends StatelessWidget {
                       top: 16,
                       child: GameHeader(
                         state: state,
-                        onClose: () => Navigator.of(context).pop(),
+                        onClose: () {},
+                        // onClose: () => Navigator.of(context).pop(),
                       ),
                     ),
                   if (state is GameLoading)
